@@ -4,7 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Калькулятор вакцинопрофилактики детей с ВЗК</title>
+
   <style>
+    /* =========================================================
+       БАЗОВЫЕ ПЕРЕМЕННЫЕ: цвета, тени, скругления
+       ========================================================= */
     :root {
       --bg: #f4f7fb;
       --surface: #ffffff;
@@ -27,8 +31,12 @@
       --radius-md: 14px;
     }
 
+    /* =========================================================
+       ОБЩИЕ НАСТРОЙКИ СТРАНИЦЫ
+       ========================================================= */
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
+
     body {
       margin: 0;
       font-family: Inter, Arial, Helvetica, sans-serif;
@@ -46,6 +54,9 @@
       padding: 28px 20px 48px;
     }
 
+    /* =========================================================
+       ВЕРХНЯЯ ПАНЕЛЬ
+       ========================================================= */
     .topbar {
       display: flex;
       align-items: center;
@@ -94,6 +105,9 @@
       backdrop-filter: blur(10px);
     }
 
+    /* =========================================================
+       ВЕРХНИЕ ИНФОРМАЦИОННЫЕ КАРТОЧКИ
+       ========================================================= */
     .hero {
       display: grid;
       grid-template-columns: 1.15fr 0.95fr;
@@ -187,9 +201,19 @@
       background: var(--surface-soft);
     }
 
-    .legend-item b { display: block; margin-bottom: 6px; }
-    .legend-item span { color: var(--muted); font-size: 14px; }
+    .legend-item b {
+      display: block;
+      margin-bottom: 6px;
+    }
 
+    .legend-item span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    /* =========================================================
+       ОСНОВНОЙ БЛОК: ФОРМА СЛЕВА, РЕЗУЛЬТАТ СПРАВА
+       ========================================================= */
     .main {
       display: grid;
       grid-template-columns: 1.05fr 0.95fr;
@@ -239,6 +263,9 @@
       margin-bottom: 12px;
     }
 
+    /* =========================================================
+       ПЕРЕКЛЮЧАТЕЛЬ МЕЖДУ PUCAI И PCDAI
+       ========================================================= */
     .segmented {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -274,10 +301,19 @@
       font-size: 13px;
     }
 
+    /* =========================================================
+       СЕТКА ПОЛЕЙ ФОРМЫ
+       ========================================================= */
     .field-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 14px;
+    }
+
+    /* Отдельный layout для шага 2: сначала индекс, затем терапия на всю ширину */
+    .step-two-grid {
+      grid-template-columns: 1fr;
+      gap: 18px;
     }
 
     .field {
@@ -288,6 +324,10 @@
 
     .field.full {
       grid-column: 1 / -1;
+    }
+
+    .score-field {
+      max-width: 420px;
     }
 
     label {
@@ -319,6 +359,100 @@
       color: var(--muted);
     }
 
+    /* =========================================================
+       БЛОК ВЫБОРА ТЕРАПИИ
+       ========================================================= */
+    .therapy-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .toolbar-buttons {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .toolbar-btn {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--text);
+      border-radius: 12px;
+      padding: 9px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.18s ease;
+    }
+
+    .toolbar-btn:hover {
+      background: var(--accent);
+      border-color: rgba(15,95,168,0.25);
+    }
+
+    /* Ключевое изменение по запросу:
+       плитки терапии занимают всю доступную ширину шага 2 */
+    .therapy-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(170px, 1fr));
+      gap: 12px;
+      width: 100%;
+    }
+
+    .therapy-chip {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 68px;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: 0.18s ease;
+      user-select: none;
+    }
+
+    .therapy-chip:hover {
+      border-color: rgba(15,95,168,0.25);
+      background: rgba(255,255,255,0.98);
+    }
+
+    .therapy-chip input {
+      width: 18px;
+      height: 18px;
+      margin: 0;
+      padding: 0;
+      accent-color: var(--primary);
+      flex: 0 0 auto;
+      box-shadow: none;
+    }
+
+    .therapy-chip span {
+      font-size: 14px;
+      line-height: 1.35;
+      font-weight: 600;
+    }
+
+    .therapy-chip.selected {
+      border-color: rgba(15,95,168,0.45);
+      background: var(--accent);
+      box-shadow: inset 0 0 0 1px rgba(15,95,168,0.08);
+    }
+
+    .selected-summary {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* =========================================================
+       КНОПКИ ДЕЙСТВИЯ
+       ========================================================= */
     .actions {
       display: flex;
       gap: 12px;
@@ -337,6 +471,7 @@
     }
 
     .btn:hover { transform: translateY(-1px); }
+
     .btn-primary {
       background: linear-gradient(135deg, var(--primary), var(--primary-2));
       color: #fff;
@@ -349,6 +484,9 @@
       border: 1px solid var(--line);
     }
 
+    /* =========================================================
+       ПРАВАЯ КОЛОНКА: ВЫВОД РЕЗУЛЬТАТА
+       ========================================================= */
     .result-shell {
       position: sticky;
       top: 24px;
@@ -438,6 +576,9 @@
       font-size: 15px;
     }
 
+    /* =========================================================
+       НИЖНИЙ БЛОК С ОПИСАНИЕМ ЛОГИКИ
+       ========================================================= */
     .cards-row {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -466,6 +607,21 @@
 
     .logic-card li + li { margin-top: 8px; }
 
+    .scenario-comment {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: var(--surface-soft);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .scenario-comment strong {
+      color: var(--text);
+    }
+
     .footer-note {
       margin-top: 24px;
       padding: 18px 20px;
@@ -474,6 +630,15 @@
       border: 1px solid var(--line);
       color: var(--muted);
       font-size: 14px;
+    }
+
+    /* =========================================================
+       АДАПТИВНОСТЬ
+       ========================================================= */
+    @media (max-width: 1120px) {
+      .therapy-grid {
+        grid-template-columns: repeat(3, minmax(170px, 1fr));
+      }
     }
 
     @media (max-width: 1024px) {
@@ -486,6 +651,10 @@
       .result-shell {
         position: static;
       }
+
+      .therapy-grid {
+        grid-template-columns: repeat(3, minmax(160px, 1fr));
+      }
     }
 
     @media (max-width: 720px) {
@@ -494,15 +663,22 @@
       .card { padding: 20px; }
       .hero-grid,
       .field-grid,
-      .segmented {
+      .segmented,
+      .therapy-grid {
         grid-template-columns: 1fr;
       }
       .hero-card h1 { font-size: 30px; }
+      .score-field { max-width: 100%; }
     }
   </style>
 </head>
+
 <body>
   <div class="page">
+
+    <!-- =====================================================
+         ВЕРХНЯЯ ПАНЕЛЬ С НАЗВАНИЕМ САЙТА
+         ===================================================== -->
     <div class="topbar">
       <div class="brand">
         <div class="brand-mark">ВЗК</div>
@@ -511,64 +687,75 @@
           <small>Детский алгоритм для пациентов с ВЗК</small>
         </div>
       </div>
-      <div class="pill">Прототип одностраничного медицинского калькулятора</div>
+      <div class="pill">Онлайн-калькулятор</div>
     </div>
 
+    <!-- =====================================================
+         ВЕРХНИЙ ИНФОРМАЦИОННЫЙ БЛОК
+         ===================================================== -->
     <section class="hero">
       <div class="hero-card">
-        <div class="pill" style="margin-bottom: 16px;">На основе загруженного алгоритма</div>
+        <div class="pill" style="margin-bottom: 16px;">Алгоритм принятия решения</div>
         <h1>Алгоритм вакцинопрофилактики детей с ВЗК</h1>
         <p>
-          Сайт-калькулятор выполнен в формате удобного медицинского сервиса: пользователь выбирает индекс активности,
-          указывает терапию и сразу получает интерпретацию с рекомендацией по типу допустимой вакцинации.
+          Сайт предназначен для быстрого выбора сценария вакцинации на основании индекса активности
+          и текущей терапии.
         </p>
+
         <div class="hero-grid">
           <div class="mini">
             <strong>1. Выбор индекса</strong>
             <span>PUCAI для язвенного колита или PCDAI для болезни Крона.</span>
           </div>
           <div class="mini">
-            <strong>2. Учет терапии</strong>
-            <span>От месалазина до биологической и иммуносупрессивной терапии.</span>
+            <strong>2. Терапия</strong>
+            <span>Можно отметить одну, несколько или сразу все схемы терапии.</span>
           </div>
           <div class="mini">
-            <strong>3. Мгновенный результат</strong>
-            <span>Отдельно показывается итог и важные клинические примечания.</span>
+            <strong>3. Результат</strong>
+            <span>Калькулятор выводит соответствующий сценарий вакцинации и пояснение.</span>
           </div>
         </div>
       </div>
 
       <div class="hero-card stats-card">
         <div>
-          <h2>Что заложено в текущую версию</h2>
-          <p>В калькулятор включены три исхода из вашей таблицы и список терапий, указанный в Excel-файле.</p>
+          <h2>Основные сценарии</h2>
+          <p>Калькулятор сопоставляет введенные параметры с одним из трех сценариев алгоритма.</p>
+
           <div class="legend">
             <div class="legend-item">
-              <b>Живые и неживые вакцины</b>
-              <span>Доступно при низкой активности и терапии месалазином.</span>
+              <b>Сценарий 1</b>
+              <span>Живые и неживые вакцины.</span>
             </div>
             <div class="legend-item">
-              <b>Неживые вакцины</b>
-              <span>Доступно при более широком диапазоне активности и ряде схем терапии.</span>
+              <b>Сценарий 2</b>
+              <span>Возможность вакцинации неживыми вакцинами.</span>
             </div>
             <div class="legend-item">
-              <b>Рассмотреть после стабилизации</b>
-              <span>Отдельный сценарий для более высокой активности заболевания.</span>
+              <b>Сценарий 3</b>
+              <span>Рассмотреть возможность вакцинации неживыми вакцинами при стабилизации состояния.</span>
             </div>
           </div>
         </div>
       </div>
     </section>
 
+    <!-- =====================================================
+         ОСНОВНОЙ РАБОЧИЙ БЛОК: ФОРМА И РЕЗУЛЬТАТ
+         ===================================================== -->
     <section class="main">
+
+      <!-- Левая колонка: форма -->
       <div class="card">
         <div class="section-head">
           <div>
             <h2>Заполните данные пациента</h2>
-            <p>Калькулятор повторяет логику из загруженной таблицы и оформлен как самостоятельный медицинский веб-интерфейс.</p>
+            <p>Выберите индекс активности, укажите его значение и отметьте варианты текущей терапии.</p>
           </div>
         </div>
 
+        <!-- Шаг 1: выбор индекса -->
         <div class="step">
           <div class="step-label">Шаг 1</div>
           <div class="segmented">
@@ -583,36 +770,90 @@
           </div>
         </div>
 
+        <!-- Шаг 2: индекс + терапия -->
         <div class="step">
           <div class="step-label">Шаг 2</div>
-          <div class="field-grid">
-            <div class="field">
+
+          <!-- В этом блоке терапия растянута на всю ширину шага -->
+          <div class="field-grid step-two-grid">
+            <div class="field score-field">
               <label for="score">Значение индекса</label>
               <input id="score" type="number" min="0" step="1" placeholder="Например, 22" />
               <div class="hint" id="score-hint">Для PUCAI используется диапазон 0–85.</div>
             </div>
-            <div class="field">
-              <label for="therapy">Текущая терапия</label>
-              <select id="therapy">
-                <option value="">Выберите вариант</option>
-                <option>Месалазин</option>
-                <option>Азатиоприн</option>
-                <option>Метотрексат</option>
-                <option>Циклоспорин</option>
-                <option>Микофенолат</option>
-                <option>Меркаптурин</option>
-                <option>Такролимус</option>
-                <option>ФНО-а</option>
-                <option>Ингибиторы интегринов</option>
-                <option>Ингибиторы Ил19/23</option>
-                <option>Тофацитиниб</option>
-                <option>Упадацитиниб</option>
-                <option>Преднизолон &gt; 20 мг/сутки</option>
-              </select>
+
+            <div class="field full">
+              <label>Текущая терапия</label>
+
+              <div class="therapy-toolbar">
+                <div class="hint">Можно выбрать один, несколько или все варианты.</div>
+                <div class="toolbar-buttons">
+                  <button class="toolbar-btn" id="select-all" type="button">Выбрать все</button>
+                  <button class="toolbar-btn" id="clear-all" type="button">Снять выбор</button>
+                </div>
+              </div>
+
+              <div class="therapy-grid" id="therapy-grid">
+                <label class="therapy-chip">
+                  <input type="checkbox" value="Месалазин">
+                  <span>Месалазин</span>
+                </label>
+                <label class="therapy-chip">
+                  <input type="checkbox" value="Азатиоприн">
+                  <span>Азатиоприн</span>
+                </label>
+                <label class="therapy-chip">
+                  <input type="checkbox" value="Метотрексат">
+                  <span>Метотрексат</span>
+                </label>
+                <label class="therapy-chip">
+                  <input type="checkbox" value="Циклоспорин">
+                  <span>Циклоспорин</span>
+                </label>
+                <label class="therapy-chip">
+                  <input type="checkbox" value="Микофенолат">
+                  <span>Микофенолат</span>
+                </label>
+                <label class="therapy-chip">
+                  <input type="checkbox" value="Меркаптурин">
+                  <span>Меркаптурин</span>
+                </label>
+                <label class="therapy-chip">
+                  <input type="checkbox" value="Такролимус">
+                  <span>Такролимус</span>
+                </label>
+                <label class="therapy-chip">
+                  <input type="checkbox" value="ФНО-а">
+                  <span>ФНО-а</span>
+                </label>
+                <label class="therapy-chip">
+                  <input type="checkbox" value="Ингибиторы интегринов">
+                  <span>Ингибиторы интегринов</span>
+                </label>
+                <label class="therapy-chip">
+                  <input type="checkbox" value="Ингибиторы Ил19/23">
+                  <span>Ингибиторы Ил19/23</span>
+                </label>
+                <label class="therapy-chip">
+                  <input type="checkbox" value="Тофацитиниб">
+                  <span>Тофацитиниб</span>
+                </label>
+                <label class="therapy-chip">
+                  <input type="checkbox" value="Упадацитиниб">
+                  <span>Упадацитиниб</span>
+                </label>
+                <label class="therapy-chip">
+                  <input type="checkbox" value="Преднизолон">
+                  <span>Преднизолон</span>
+                </label>
+              </div>
+
+              <div class="selected-summary" id="therapy-summary">Выбрано схем терапии: 0</div>
             </div>
           </div>
         </div>
 
+        <!-- Шаг 3: дополнительный клинический параметр -->
         <div class="step">
           <div class="step-label">Шаг 3</div>
           <div class="field-grid">
@@ -623,17 +864,19 @@
                 <option value="yes">Да</option>
                 <option value="no">Нет</option>
               </select>
-              <div class="hint">Это поле нужно для показа специального примечания при терапии препаратами на основе 5-АСК.</div>
+              <div class="hint">Поле используется для специального примечания при терапии на основе 5-АСК.</div>
             </div>
           </div>
         </div>
 
+        <!-- Кнопки управления -->
         <div class="actions">
           <button class="btn btn-primary" id="calculate" type="button">Рассчитать</button>
           <button class="btn btn-secondary" id="reset" type="button">Сбросить</button>
         </div>
       </div>
 
+      <!-- Правая колонка: результат -->
       <div class="result-shell">
         <div class="card" style="padding: 0; overflow: hidden;">
           <div class="result-box">
@@ -642,34 +885,26 @@
               <h3>Итог по алгоритму</h3>
               <p>После расчета здесь будет показан подходящий сценарий вакцинации.</p>
             </div>
-            <div id="result" class="result-placeholder">
-              Укажите индекс активности, выберите терапию и нажмите «Рассчитать».
-            </div>
-          </div>
-        </div>
 
-        <div class="card">
-          <div class="section-head" style="margin-bottom: 14px;">
-            <div>
-              <h3>Подсказка по интерпретации</h3>
+            <div id="result" class="result-placeholder">
+              Укажите индекс активности, отметьте одну или несколько схем терапии и нажмите «Рассчитать».
             </div>
-          </div>
-          <div class="hint" style="font-size: 14px; line-height: 1.7;">
-            В текущей версии калькулятор реализует только тот алгоритм, который был передан в таблице.
-            При необходимости в сайт можно добавить дополнительные экраны, справочные разделы, модуль печати заключения,
-            форму обратной связи и админ-панель для редактирования правил без изменения кода.
           </div>
         </div>
       </div>
     </section>
 
+    <!-- =====================================================
+         БЛОК С ОПИСАНИЕМ ЛОГИКИ АЛГОРИТМА
+         ===================================================== -->
     <section style="margin-top: 28px;">
       <div class="section-head">
         <div>
           <h2>Логика, заложенная в калькулятор</h2>
-          <p>Ниже блоками показано, как сейчас интерпретируются данные из Excel-файла.</p>
+          <p>Ниже показано, как интерпретируются значения индексов и выбранная терапия.</p>
         </div>
       </div>
+
       <div class="cards-row">
         <div class="logic-card">
           <div class="badge success">Сценарий 1</div>
@@ -677,76 +912,84 @@
           <ul>
             <li>PUCAI: 0–34</li>
             <li>PCDAI: 0–10</li>
-            <li>Терапия: месалазин</li>
+            <li>Терапия: выбран только месалазин</li>
           </ul>
+          <div class="scenario-comment">
+            <strong>Живые вакцины:</strong> корь, краснуха, паротит; ветряная оспа; ротовирус; туберкулез (БЦЖ/БЦЖ-М); полиомиелит (ОПВ). <strong>Неживые вакцины:</strong> гепатит В; коклюш, дифтерия, столбняк; полиомиелит (ИПВ); пневмококк; гемофильная инфекция типа b; менингококк; грипп; гепатит А; клещевой энцефалит; ВПЧ.
+          </div>
         </div>
+
         <div class="logic-card">
           <div class="badge warning">Сценарий 2</div>
-          <h4>Неживые вакцины</h4>
+          <h4>Возможность вакцинации неживыми вакцинами</h4>
           <ul>
             <li>PUCAI: 0–64</li>
             <li>PCDAI: 0–29</li>
-            <li>Терапия: месалазин, азатиоприн, метотрексат, циклоспорин, микофенолат, меркаптурин, такролимус, ФНО-а, ингибиторы интегринов, ингибиторы Ил19/23, тофацитиниб, упадацитиниб, преднизолон &gt; 20 мг/сутки</li>
+            <li>Терапия: одна или несколько выбранных схем из алгоритма</li>
           </ul>
+          <div class="scenario-comment">
+            <strong>Неживые вакцины:</strong> гепатит В; коклюш, дифтерия, столбняк; полиомиелит (ИПВ); пневмококк; гемофильная инфекция типа b; менингококк; грипп; гепатит А; клещевой энцефалит; ВПЧ.
+          </div>
         </div>
+
         <div class="logic-card">
           <div class="badge danger">Сценарий 3</div>
           <h4>Рассмотреть после стабилизации</h4>
           <ul>
             <li>PUCAI: 65–85</li>
             <li>PCDAI: 30–100</li>
-            <li>Вывод не зависит от выбранной терапии в текущей таблице</li>
+            <li>Решение определяется активностью заболевания</li>
           </ul>
         </div>
       </div>
 
       <div class="footer-note">
-        Этот прототип можно использовать как базу для полноценного сайта: подключить домен, аналитику, систему управления контентом,
-        серверную часть, выгрузку PDF-заключения и дополнительные медицинские алгоритмы.
+        Файл можно открыть напрямую в браузере. В код добавлены комментарии по основным блокам HTML, CSS и JavaScript для удобства дальнейшего редактирования.
       </div>
     </section>
   </div>
 
   <script>
+    // =========================================================
+    // ПОЛУЧЕНИЕ ССЫЛОК НА ОСНОВНЫЕ ЭЛЕМЕНТЫ СТРАНИЦЫ
+    // =========================================================
     const btnPucai = document.getElementById('btn-pucai');
     const btnPcdai = document.getElementById('btn-pcdai');
     const scoreInput = document.getElementById('score');
-    const therapySelect = document.getElementById('therapy');
     const varicellaSelect = document.getElementById('varicella');
     const resultNode = document.getElementById('result');
     const scoreHint = document.getElementById('score-hint');
+    const therapySummary = document.getElementById('therapy-summary');
+    const therapyCheckboxes = Array.from(
+      document.querySelectorAll('#therapy-grid input[type="checkbox"]')
+    );
 
+    // Текущий активный индекс по умолчанию
     let activeIndex = 'PUCAI';
 
-    const therapyGroupScenario2 = new Set([
-      'Месалазин',
-      'Азатиоприн',
-      'Метотрексат',
-      'Циклоспорин',
-      'Микофенолат',
-      'Меркаптурин',
-      'Такролимус',
-      'ФНО-а',
-      'Ингибиторы интегринов',
-      'Ингибиторы Ил19/23',
-      'Тофацитиниб',
-      'Упадацитиниб',
-      'Преднизолон > 20 мг/сутки'
-    ]);
-
+    // =========================================================
+    // ПЕРЕКЛЮЧЕНИЕ МЕЖДУ PUCAI И PCDAI
+    // =========================================================
     function setActiveIndex(type) {
       activeIndex = type;
+
       btnPucai.classList.toggle('active', type === 'PUCAI');
       btnPcdai.classList.toggle('active', type === 'PCDAI');
+
       scoreHint.textContent = type === 'PUCAI'
         ? 'Для PUCAI используется диапазон 0–85.'
         : 'Для PCDAI используется диапазон 0–100.';
+
+      // При смене индекса очищаем введенное значение
       scoreInput.value = '';
     }
 
     btnPucai.addEventListener('click', () => setActiveIndex('PUCAI'));
     btnPcdai.addEventListener('click', () => setActiveIndex('PCDAI'));
 
+    // =========================================================
+    // ЭКРАНИРОВАНИЕ ТЕКСТА ПЕРЕД ВСТАВКОЙ В HTML
+    // =========================================================
     function escapeHtml(text) {
       return String(text)
         .replace(/&/g, '&amp;')
@@ -756,6 +999,46 @@
         .replace(/'/g, '&#039;');
     }
 
+    // =========================================================
+    // РАБОТА С ВЫБРАННЫМИ ВАРИАНТАМИ ТЕРАПИИ
+    // =========================================================
+    function getSelectedTherapies() {
+      return therapyCheckboxes
+        .filter(input => input.checked)
+        .map(input => input.value);
+    }
+
+    function updateTherapyVisuals() {
+      therapyCheckboxes.forEach(input => {
+        input.closest('.therapy-chip').classList.toggle('selected', input.checked);
+      });
+
+      therapySummary.textContent = `Выбрано схем терапии: ${getSelectedTherapies().length}`;
+    }
+
+    therapyCheckboxes.forEach(input => {
+      input.addEventListener('change', updateTherapyVisuals);
+    });
+
+    // Кнопка "Выбрать все"
+    document.getElementById('select-all').addEventListener('click', () => {
+      therapyCheckboxes.forEach(input => {
+        input.checked = true;
+      });
+      updateTherapyVisuals();
+    });
+
+    // Кнопка "Снять выбор"
+    document.getElementById('clear-all').addEventListener('click', () => {
+      therapyCheckboxes.forEach(input => {
+        input.checked = false;
+      });
+      updateTherapyVisuals();
+    });
+
+    // =========================================================
+    // ВЫВОД РЕЗУЛЬТАТА В ПРАВУЮ КОЛОНКУ
+    // =========================================================
     function renderResult(payload) {
       const noteHtml = payload.note
         ? `<div class="note">${escapeHtml(payload.note)}</div>`
@@ -765,40 +1048,49 @@
       resultNode.innerHTML = `
         <div class="result-body">
           <div class="badge ${payload.tone}">${escapeHtml(payload.level)}</div>
+
           <div class="fact">
             <small>Рекомендация</small>
             <div style="font-size: 22px; font-weight: 800; line-height: 1.25;">${escapeHtml(payload.title)}</div>
           </div>
+
           <div class="fact">
             <small>Основание</small>
             <div>${escapeHtml(payload.reason)}</div>
           </div>
+
           <div class="fact">
             <small>Параметры расчета</small>
             <div>${escapeHtml(payload.details)}</div>
           </div>
+
           ${noteHtml}
         </div>
       `;
     }
 
+    // =========================================================
+    // ОСНОВНАЯ ЛОГИКА РАСЧЕТА ПО АЛГОРИТМУ
+    // =========================================================
     function calculate() {
       const scoreRaw = scoreInput.value.trim();
-      const therapy = therapySelect.value;
+      const selectedTherapies = getSelectedTherapies();
       const varicella = varicellaSelect.value;
 
-      if (!scoreRaw || !therapy) {
+      // Проверка обязательных полей
+      if (!scoreRaw || selectedTherapies.length === 0) {
         renderResult({
           tone: 'neutral',
           level: 'Нужно заполнение',
           title: 'Недостаточно данных для расчета',
-          reason: 'Заполните значение индекса активности и выберите вариант терапии.',
-          details: 'Без этих двух параметров алгоритм не может определить подходящий сценарий.',
+          reason: 'Заполните значение индекса активности и выберите хотя бы один вариант терапии.',
+          details: 'Без этих параметров алгоритм не может определить подходящий сценарий.',
           note: ''
         });
         return;
       }
 
+      // Проверка корректности числового ввода
       const score = Number(scoreRaw);
       if (Number.isNaN(score) || score < 0) {
         renderResult({
@@ -812,75 +1104,63 @@
         return;
       }
 
-      const details = `${activeIndex}: ${score}; терапия: ${therapy}`;
+      // Служебные переменные для правил алгоритма
+      const therapyText = selectedTherapies.join(', ');
+      const details = `${activeIndex}: ${score}; терапия: ${therapyText}`;
+      const mesalazineOnly = selectedTherapies.length === 1 && selectedTherapies[0] === 'Месалазин';
+      const hasMesalazine = selectedTherapies.includes('Месалазин');
 
+      // ---------------------------------------------------------
+      // Правила для PUCAI
+      // ---------------------------------------------------------
       if (activeIndex === 'PUCAI') {
-        if (therapy === 'Месалазин' && score >= 0 && score <= 34) {
-          renderResult({
-            tone: 'success',
-            level: 'Сценарий 1',
-            title: 'Вакцинация живыми и неживыми вакцинами',
-            reason: 'Для PUCAI 0–34 при терапии месалазином алгоритм относит пациента к наиболее благоприятному сценарию.',
-            details,
-            note: varicella === 'no'
-              ? 'Пациентам с ВЗК, ранее не болевшим ветряной оспой и получающим препараты на основе 5-АСК, в алгоритме указано отложить вакцинацию в связи с гипотетическим риском синдрома Рея.'
-              : ''
-          });
-          return;
-        }
-
-        if (therapyGroupScenario2.has(therapy) && score >= 0 && score <= 64) {
-          renderResult({
-            tone: 'warning',
-            level: 'Сценарий 2',
-            title: 'Возможность вакцинации неживыми вакцинами',
-            reason: 'Для PUCAI 0–64 при выбранной терапии алгоритм разрешает рассматривать неживые вакцины.',
-            details,
-            note: ''
-          });
-          return;
-        }
-
         if (score >= 65 && score <= 85) {
           renderResult({
             tone: 'danger',
             level: 'Сценарий 3',
             title: 'Рассмотреть возможность вакцинации неживыми вакцинами при стабилизации состояния',
-            reason: 'При PUCAI 65–85 текущий алгоритм относит пациента к группе, где решение предлагается отложить до стабилизации.',
+            reason: 'При PUCAI 65–85 алгоритм относит пациента к группе, где решение предлагается принимать после стабилизации состояния.',
             details,
             note: ''
+          });
+          return;
+        }
+
+        if (mesalazineOnly && score >= 0 && score <= 34) {
+          renderResult({
+            tone: 'success',
+            level: 'Сценарий 1',
+            title: 'Вакцинация живыми и неживыми вакцинами',
+            reason: 'Для PUCAI 0–34 и при выборе только месалазина алгоритм относит пациента к наиболее благоприятному сценарию.',
+            details,
+            note: 'Живые вакцины: корь, краснуха, паротит; ветряная оспа; ротовирус; туберкулез (БЦЖ/БЦЖ-М); полиомиелит (ОПВ). Неживые вакцины: гепатит В; коклюш, дифтерия, столбняк; полиомиелит (ИПВ); пневмококк; гемофильная инфекция типа b; менингококк; грипп; гепатит А; клещевой энцефалит; ВПЧ.' + (varicella === 'no'
+              ? ' Пациентам с ВЗК, ранее не болевшим ветряной оспой и получающим препараты на основе 5-АСК, следует отложить вакцинацию в связи с гипотетическим риском синдрома Рея.'
+              : '')
+          });
+          return;
+        }
+
+        if (score >= 0 && score <= 64) {
+          renderResult({
+            tone: 'warning',
+            level: 'Сценарий 2',
+            title: 'Возможность вакцинации неживыми вакцинами',
+            reason: mesalazineOnly
+              ? 'При выбранных данных правило сценария 1 уже не используется за пределами низкого диапазона, поэтому применяется сценарий с неживыми вакцинами.'
+              : 'При PUCAI 0–64 и выборе одной или нескольких схем терапии алгоритм допускает рассматривать неживые вакцины.',
+            details,
+            note: hasMesalazine && varicella === 'no'
+              ? 'Дополнительно: для препаратов на основе 5-АСК необходимо учитывать отдельное ограничение у пациентов, ранее не болевших ветряной оспой.'
+              : ''
           });
           return;
         }
       }
 
+      // ---------------------------------------------------------
+      // Правила для PCDAI
+      // ---------------------------------------------------------
       if (activeIndex === 'PCDAI') {
-        if (therapy === 'Месалазин' && score >= 0 && score <= 10) {
-          renderResult({
-            tone: 'success',
-            level: 'Сценарий 1',
-            title: 'Вакцинация живыми и неживыми вакцинами',
-            reason: 'Для PCDAI 0–10 при терапии месалазином алгоритм выбирает наиболее благоприятный сценарий.',
-            details,
-            note: varicella === 'no'
-              ? 'Пациентам с ВЗК, ранее не болевшим ветряной оспой и получающим препараты на основе 5-АСК, в алгоритме указано отложить вакцинацию в связи с гипотетическим риском синдрома Рея.'
-              : ''
-          });
-          return;
-        }
-
-        if (therapyGroupScenario2.has(therapy) && score >= 0 && score <= 29) {
-          renderResult({
-            tone: 'warning',
-            level: 'Сценарий 2',
-            title: 'Возможность вакцинации неживыми вакцинами',
-            reason: 'Для PCDAI 0–29 при выбранной терапии алгоритм допускает неживые вакцины.',
-            details,
-            note: ''
-          });
-          return;
-        }
-
         if (score >= 30 && score <= 100) {
           renderResult({
             tone: 'danger',
@@ -892,36 +1172,75 @@
           });
           return;
         }
+
+        if (mesalazineOnly && score >= 0 && score <= 10) {
+          renderResult({
+            tone: 'success',
+            level: 'Сценарий 1',
+            title: 'Вакцинация живыми и неживыми вакцинами',
+            reason: 'Для PCDAI 0–10 и при выборе только месалазина алгоритм выбирает наиболее благоприятный сценарий.',
+            details,
+            note: 'Живые вакцины: корь, краснуха, паротит; ветряная оспа; ротовирус; туберкулез (БЦЖ/БЦЖ-М); полиомиелит (ОПВ). Неживые вакцины: гепатит В; коклюш, дифтерия, столбняк; полиомиелит (ИПВ); пневмококк; гемофильная инфекция типа b; менингококк; грипп; гепатит А; клещевой энцефалит; ВПЧ.' + (varicella === 'no'
+              ? ' Пациентам с ВЗК, ранее не болевшим ветряной оспой и получающим препараты на основе 5-АСК, следует отложить вакцинацию в связи с гипотетическим риском синдрома Рея.'
+              : '')
+          });
+          return;
+        }
+
+        if (score >= 0 && score <= 29) {
+          renderResult({
+            tone: 'warning',
+            level: 'Сценарий 2',
+            title: 'Возможность вакцинации неживыми вакцинами',
+            reason: mesalazineOnly
+              ? 'При выбранных данных правило сценария 1 уже не используется за пределами низкого диапазона, поэтому применяется сценарий с неживыми вакцинами.'
+              : 'Для PCDAI 0–29 при выборе одной или нескольких схем терапии алгоритм допускает неживые вакцины.',
+            details,
+            note: hasMesalazine && varicella === 'no'
+              ? 'Дополнительно: для препаратов на основе 5-АСК необходимо учитывать отдельное ограничение у пациентов, ранее не болевших ветряной оспой.'
+              : ''
+          });
+          return;
+        }
       }
 
+      // Если правило не найдено, показываем нейтральное сообщение
       renderResult({
         tone: 'neutral',
         level: 'Вне правил',
         title: 'Для введенных данных правило не найдено',
-        reason: 'Текущий прототип опирается только на диапазоны и терапии, указанные в загруженной таблице.',
+        reason: 'Текущий прототип опирается только на диапазоны и терапии, указанные в алгоритме.',
         details,
-        note: 'При необходимости можно расширить алгоритм: добавить новые диапазоны, сопутствующие параметры, отдельные ветки для клинических исключений и экспертных комментариев.'
+        note: 'При необходимости можно расширить калькулятор: добавить новые диапазоны, дополнительные клинические параметры и печатную форму заключения.'
       });
     }
 
+    // =========================================================
+    // СБРОС ФОРМЫ К ИСХОДНОМУ СОСТОЯНИЮ
+    // =========================================================
     function resetForm() {
+      therapyCheckboxes.forEach(input => {
+        input.checked = false;
+      });
+
+      updateTherapyVisuals();
       setActiveIndex('PUCAI');
-      therapySelect.value = '';
+
       scoreInput.value = '';
       varicellaSelect.value = 'unknown';
+
       resultNode.className = 'result-placeholder';
-      resultNode.innerHTML = 'Укажите индекс активности, выберите терапию и нажмите «Рассчитать».';
+      resultNode.innerHTML = 'Укажите индекс активности, отметьте одну или несколько схем терапии и нажмите «Рассчитать».';
     }
 
+    // =========================================================
+    // НАЗНАЧЕНИЕ ОБРАБОТЧИКОВ КНОПОК
+    // =========================================================
     document.getElementById('calculate').addEventListener('click', calculate);
-    document.getElementById('reset').addEventListener('click', () => {
-      therapySelect.value = '';
-      scoreInput.value = '';
-      varicellaSelect.value = 'unknown';
-      setActiveIndex('PUCAI');
-      resultNode.className = 'result-placeholder';
-      resultNode.innerHTML = 'Укажите индекс активности, выберите терапию и нажмите «Рассчитать».';
-    });
+    document.getElementById('reset').addEventListener('click', resetForm);
+
+    // Инициализация визуального состояния чекбоксов
+    updateTherapyVisuals();
   </script>
 </body>
 </html>
